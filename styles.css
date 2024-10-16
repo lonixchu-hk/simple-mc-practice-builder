@@ -8,9 +8,17 @@ body {
   margin: 0;
   padding: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
+}
+
+/* Style the profile name */
+#profile-name {
+  font-size: 2em;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 /* Style the main container */
@@ -38,15 +46,16 @@ body {
 
 /* Style individual options */
 .option {
-  background-color: #e0e0e0;
+  background-color: #f0f0f0;
   border-radius: 4px;
   padding: 10px;
   cursor: pointer;
   transition: background-color 0.3s;
+  margin-top: 5px;
 }
 
 .option:hover {
-  background-color: #d4d4d4;
+  background-color: #ddd;
 }
 
 .option.selected {
@@ -117,4 +126,113 @@ button:disabled {
 #question-info {
   font-size: 1.2em;
   font-weight: bold;
+}
+
+/* Modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal h2 {
+  margin-top: 0;
+  font-size: 1.5em;
+}
+
+.modal input[type="file"],
+.modal textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.modal button {
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  padding: 10px 20px;
+  margin: 10px 5px;
+  transition: background-color 0.3s;
+}
+
+.modal button:hover {
+  background-color: #0056b3;
+}
+
+.modal h3 {
+  margin-top: 20px;
+  font-size: 1.2em;
+}
+
+.modal ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.modal ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  padding: 10px;
+  margin: 5px 0;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.modal ul li:hover {
+  background-color: #ddd;
+}
+
+.modal ul li button {
+  background-color: #ff4d4d;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  padding: 5px 10px;
+  transition: background-color 0.3s;
+}
+
+.modal ul li button:hover {
+  background-color: #cc0000;
 }

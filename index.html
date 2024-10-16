@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="styles.css" />
   </head>
   <body>
+    <h1 id="profile-name"></h1>
     <div id="main-container">
       <div id="question"></div>
       <div id="options"></div>
@@ -19,7 +20,22 @@
           </div>
         </div>
       </div>
+      <button id="json-insert">Insert JSON</button>
     </div>
+
+    <!-- Modal for JSON input -->
+    <div id="json-modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Insert JSON</h2>
+        <input type="file" id="json-file-input" />
+        <textarea id="json-textarea" placeholder="Paste JSON here"></textarea>
+        <button id="load-json">Load JSON</button>
+        <h3>Saved Profiles</h3>
+        <ul id="json-profiles"></ul>
+      </div>
+    </div>
+
     <script src="script.js"></script>
   </body>
 </html>
