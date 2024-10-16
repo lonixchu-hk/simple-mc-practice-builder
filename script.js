@@ -4,6 +4,9 @@ fetch("questions.json")
   .then((data) => {
     const questions = data;
 
+    // Question order is randomized
+    questions.sort(() => Math.random() - 0.5);
+
     // Initialize variables
     let currentQuestionIndex = 0;
     const totalQuestions = questions.length; // Update this to the actual total number of questions
