@@ -1,0 +1,115 @@
+/* styles.css */
+
+/* Define a clean and modern font */
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Style the main container */
+#main-container {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 80%;
+  max-width: 800px;
+}
+
+/* Style the question element */
+#question {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+/* Style the options container */
+#options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Style individual options */
+.option {
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.option:hover {
+  background-color: #d4d4d4;
+}
+
+/* Style the answer element */
+#answer {
+  margin-top: 20px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* Style the buttons */
+button {
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  padding: 10px 20px;
+  margin: 10px 5px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Align buttons */
+#button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#show-answer {
+  background-color: #4caf50; /* Change this to your desired color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+#nav-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+#nav-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+#prev,
+#next {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+#question-info {
+  font-size: 1.2em;
+  font-weight: bold;
+}
