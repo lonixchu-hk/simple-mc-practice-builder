@@ -41,6 +41,22 @@ fetch("questions.json")
         )}. ${text}`;
         optionElement.dataset.id = id;
         optionsContainer.appendChild(optionElement);
+
+        // Add click event listener to each option
+        optionElement.addEventListener("click", () => {
+          // Remove tick and background color from previously selected option
+          const previouslySelected =
+            optionsContainer.querySelector(".selected");
+          if (previouslySelected) {
+            previouslySelected.classList.remove("selected");
+            previouslySelected.textContent =
+              previouslySelected.textContent.slice(0, -1); // Remove tick
+          }
+
+          // Add tick and background color to the clicked option
+          optionElement.classList.add("selected");
+          optionElement.textContent += " ✔"; // Add tick
+        });
       });
 
       updateQuestionInfo();
