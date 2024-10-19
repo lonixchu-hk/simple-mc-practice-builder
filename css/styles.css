@@ -3,7 +3,10 @@
 /* Define a clean and modern font */
 body {
   font-family: "Arial", sans-serif;
-  background-color: #f4f4f9;
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  background-color: #f0f2f3;
   color: #333;
   margin: 0;
   padding: 0;
@@ -72,7 +75,7 @@ body {
 
 /* Style the buttons */
 button {
-  background-color: #007bff;
+  background-color: #213271;
   border: none;
   border-radius: 4px;
   color: #fff;
@@ -96,10 +99,11 @@ button:disabled {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 20px;
 }
 
 #show-answer {
-  background-color: #4caf50; /* Change this to your desired color */
+  background-color: #e86349; /* Change this to your desired color */
   color: white;
   border: none;
   padding: 10px 20px;
@@ -183,7 +187,7 @@ button:disabled {
 }
 
 .modal button {
-  background-color: #007bff;
+  background-color: #213271;
   border: none;
   border-radius: 4px;
   color: #fff;
@@ -200,39 +204,4 @@ button:disabled {
 .modal h3 {
   margin-top: 20px;
   font-size: 1.2em;
-}
-
-.modal ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.modal ul li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #f0f0f0;
-  border-radius: 4px;
-  padding: 10px;
-  margin: 5px 0;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.modal ul li:hover {
-  background-color: #ddd;
-}
-
-.modal ul li button {
-  background-color: #ff4d4d;
-  border: none;
-  border-radius: 4px;
-  color: #fff;
-  cursor: pointer;
-  padding: 5px 10px;
-  transition: background-color 0.3s;
-}
-
-.modal ul li button:hover {
-  background-color: #cc0000;
 }

@@ -2,7 +2,18 @@
 <html>
   <head>
     <title>Multiple Choice Practice</title>
-    <link rel="stylesheet" type="text/css" href="styles.css" />
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Style Css -->
+    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="css/side-panel.css" />
   </head>
   <body>
     <h1 id="profile-name"></h1>
@@ -20,22 +31,39 @@
           </div>
         </div>
       </div>
-      <button id="json-insert">Insert JSON</button>
     </div>
 
-    <!-- Modal for JSON input -->
-    <div id="json-modal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Insert JSON</h2>
-        <input type="file" id="json-file-input" />
-        <textarea id="json-textarea" placeholder="Paste JSON here"></textarea>
-        <button id="load-json">Load JSON</button>
-        <h3>Saved Question Sets</h3>
+    <div id="json-side-panel" class="side-panel">
+      <a href="javascript:void(0)" class="close-btn">&times;</a>
+      <div>
+        <h2>Add Question Set</h2>
+        <ol>
+          <li>
+            Copy and Paste JSON
+            <textarea
+              id="json-textarea"
+              placeholder="Paste JSON here..."
+            ></textarea>
+            <button id="load-json">Submit JSON</button>
+          </li>
+          <li>
+            Upload JSON
+            <input type="file" id="json-file-input" />
+          </li>
+        </ol>
+      </div>
+      <hr />
+      <div>
+        <h2>Manage Question Sets</h2>
         <ul id="json-profiles"></ul>
       </div>
     </div>
+    <button id="open-side-panel" class="open-btn">
+      ☰ Manage Question Bank
+    </button>
+    <div id="backdrop"></div>
 
-    <script src="script.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/side-panel.js"></script>
   </body>
 </html>

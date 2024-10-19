@@ -3,15 +3,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initialize variables
   let currentQuestionIndex = 0;
+  let selectedQuestionSetIndex = null;
   const questionElement = document.getElementById("question");
   const optionsContainer = document.getElementById("options");
   const prevButton = document.getElementById("prev");
   const nextButton = document.getElementById("next");
   const showAnswerButton = document.getElementById("show-answer");
   const answerElement = document.getElementById("answer");
-  const jsonInsertButton = document.getElementById("json-insert");
-  const jsonModal = document.getElementById("json-modal");
-  const closeModal = document.querySelector(".close");
   const jsonFileInput = document.getElementById("json-file-input");
   const jsonTextarea = document.getElementById("json-textarea");
   const loadJsonButton = document.getElementById("load-json");
@@ -21,14 +19,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Function to display the current question
   function displayQuestion() {
     const currentQuestion = questions[currentQuestionIndex];
-    questionElement.textContent = currentQuestion.question;
-
-    // Randomize the order of options
-    const options = Object.entries(currentQuestion.options);
-    options.sort(() => Math.random() - 0.5);
-
-    // Store randomized options
-    currentQuestion.randomizedOptions = options;
+    questionElement.textContent = `${currentQuestionIndex + 1}. ${
+      currentQuestion.question
+    }`;
 
     // Clear previous options
     optionsContainer.innerHTML = "";
@@ -37,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     answerElement.textContent = "";
 
     // Create option elements.
-    options.forEach(([id, text], index) => {
+    currentQuestion.randomizedOptions.forEach(([id, text], index) => {
       const optionElement = document.createElement("div");
       optionElement.classList.add("option");
       optionElement.textContent = `${String.fromCharCode(65 + index)}. ${text}`;
@@ -63,18 +56,27 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     updateQuestionInfo();
+    showAnswerButton.textContent = "Show Answer"; // Reset button text
+    answerElement.style.display = "none"; // Hide answer
   }
 
-  // Function to show the answer
-  function showAnswer() {
-    const currentQuestion = questions[currentQuestionIndex];
-    const answerId = currentQuestion.answer;
-    const answerText = currentQuestion.options[answerId];
-    const answerIndex = currentQuestion.randomizedOptions.findIndex(
-      ([id]) => id === answerId
-    );
-    const answerCode = String.fromCharCode(65 + answerIndex);
-    answerElement.textContent = `${answerCode}. ${answerText}`;
+  // Function to show or hide the answer
+  function toggleAnswer() {
+    if (answerElement.style.display === "none") {
+      const currentQuestion = questions[currentQuestionIndex];
+      const answerId = currentQuestion.answer;
+      const answerText = currentQuestion.options[answerId];
+      const answerIndex = currentQuestion.randomizedOptions.findIndex(
+        ([id]) => id === answerId
+      );
+      const answerCode = String.fromCharCode(65 + answerIndex);
+      answerElement.textContent = `${answerCode}. ${answerText}`;
+      answerElement.style.display = "block";
+      showAnswerButton.textContent = "Hide Answer";
+    } else {
+      answerElement.style.display = "none";
+      showAnswerButton.textContent = "Show Answer";
+    }
   }
 
   // Event listener for previous button
@@ -95,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Event listener for show answer button
   showAnswerButton.addEventListener("click", () => {
-    showAnswer();
+    toggleAnswer();
   });
 
   function updateQuestionInfo() {
@@ -111,6 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
     profiles.push({ name, json, timestamp });
     localStorage.setItem("jsonProfiles", JSON.stringify(profiles));
     loadJsonProfiles();
+    jsonTextarea.value = ""; // Clear textarea
   }
 
   // Load JSON profiles from localStorage
@@ -119,26 +122,40 @@ document.addEventListener("DOMContentLoaded", () => {
     jsonProfilesList.innerHTML = "";
     profiles.forEach((profile, index) => {
       const li = document.createElement("li");
-      li.textContent = profile.name;
+
+      const questionSetName = document.createElement("span");
+      questionSetName.textContent = profile.name;
+      questionSetName.classList.add("question-set-name");
+      li.appendChild(questionSetName);
 
       // Add delete button
       const deleteButton = document.createElement("button");
       deleteButton.textContent = "Delete";
       deleteButton.addEventListener("click", (e) => {
         e.stopPropagation();
-        deleteProfile(index);
+        const confirmDelete = confirm(
+          "Are you sure you want to delete this Question Set?"
+        );
+        if (confirmDelete) deleteProfile(index);
       });
 
       li.appendChild(deleteButton);
 
+      if (index === selectedQuestionSetIndex) {
+        const tickMark = document.createElement("span");
+        tickMark.textContent = "✔";
+        tickMark.classList.add("tick-mark");
+        li.appendChild(tickMark);
+      }
+
       li.addEventListener("click", () => {
-        questions = JSON.parse(profile.json);
-        questions.sort(() => Math.random() - 0.5);
+        loadQuestionsFromJson(profile.json);
         currentQuestionIndex = 0;
+        selectedQuestionSetIndex = index;
         displayQuestion();
-        jsonModal.style.display = "none";
         updateProfileTimestamp(index);
         profileNameElement.textContent = profile.name; // Set profile name
+        loadJsonProfiles();
       });
       jsonProfilesList.appendChild(li);
     });
@@ -157,35 +174,56 @@ document.addEventListener("DOMContentLoaded", () => {
     profiles.splice(index, 1);
     localStorage.setItem("jsonProfiles", JSON.stringify(profiles));
     loadJsonProfiles();
+    loadLatestProfile();
+    if (!questions.length) {
+      showPanel();
+    }
   }
 
   // Load the latest used JSON profile
   function loadLatestProfile() {
     const profiles = JSON.parse(localStorage.getItem("jsonProfiles")) || [];
     if (profiles.length > 0) {
-      profiles.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-      const latestProfile = profiles[0];
-      questions = JSON.parse(latestProfile.json);
-      questions.sort(() => Math.random() - 0.5);
+      const sortedProfiles = [...profiles].sort(
+        (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+      );
+      const latestProfile = sortedProfiles[0];
+      loadQuestionsFromJson(latestProfile.json);
       currentQuestionIndex = 0;
+      selectedQuestionSetIndex = profiles.indexOf(latestProfile);
       displayQuestion();
       profileNameElement.textContent = latestProfile.name; // Set profile name
+      loadJsonProfiles();
     }
   }
 
-  // Event listener for JSON insert button
-  jsonInsertButton.addEventListener("click", () => {
-    jsonModal.style.display = "block";
-    // clear the textarea and file input
-    jsonTextarea.value = "";
-    jsonFileInput.value = "";
-    loadJsonProfiles();
-  });
+  // Function to load questions from JSON and randomize them
+  function loadQuestionsFromJson(json) {
+    questions = JSON.parse(json);
 
-  // Event listener for closing the modal
-  closeModal.addEventListener("click", () => {
-    jsonModal.style.display = "none";
-  });
+    // Randomize the order of questions
+    questions.sort(() => Math.random() - 0.5);
+
+    // Randomize the options within each question
+    questions.forEach((question) => {
+      const options = Object.entries(question.options);
+      options.sort(() => Math.random() - 0.5);
+      question.randomizedOptions = options;
+    });
+  }
+
+  function saveQuestionSet(jsonText) {
+    loadQuestionsFromJson(jsonText);
+    const profileName = prompt("Enter a name for this JSON profile:");
+    if (profileName) {
+      saveJsonProfile(profileName, jsonText);
+      profileNameElement.textContent = profileName; // Set profile name
+      currentQuestionIndex = 0;
+      displayQuestion();
+    } else if (profileName !== null) {
+      alert("Cannot save profile without a name. Please try again.");
+    }
+  }
 
   // Event listener for JSON file input
   jsonFileInput.addEventListener("change", () => {
@@ -194,16 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         const json = e.target.result;
-        questions = JSON.parse(json);
-        questions.sort(() => Math.random() - 0.5);
-        currentQuestionIndex = 0;
-        displayQuestion();
-        jsonModal.style.display = "none";
-        const profileName = prompt("Enter a name for this JSON profile:");
-        if (profileName) {
-          saveJsonProfile(profileName, json);
-          profileNameElement.textContent = profileName; // Set profile name
-        }
+        saveQuestionSet(json);
       };
       reader.readAsText(file);
     }
@@ -213,23 +242,7 @@ document.addEventListener("DOMContentLoaded", () => {
   loadJsonButton.addEventListener("click", () => {
     const jsonText = jsonTextarea.value;
     if (jsonText) {
-      questions = JSON.parse(jsonText);
-      questions.sort(() => Math.random() - 0.5);
-      currentQuestionIndex = 0;
-      displayQuestion();
-      jsonModal.style.display = "none";
-      const profileName = prompt("Enter a name for this JSON profile:");
-      if (profileName) {
-        saveJsonProfile(profileName, jsonText);
-        profileNameElement.textContent = profileName; // Set profile name
-      }
-    }
-  });
-
-  // Close the modal if the user clicks outside of it
-  window.addEventListener("click", (event) => {
-    if (event.target == jsonModal) {
-      jsonModal.style.display = "none";
+      saveQuestionSet(jsonText);
     }
   });
 
@@ -238,6 +251,6 @@ document.addEventListener("DOMContentLoaded", () => {
   loadLatestProfile();
 
   if (!questions.length) {
-    jsonModal.style.display = "block";
+    showPanel();
   }
 });
