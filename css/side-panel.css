@@ -39,15 +39,12 @@
 }
 
 .open-btn {
-  font-size: 18px;
   cursor: pointer;
-  background-color: #213271;
-  color: white;
+  color: #213271;
   border: none;
-  padding: 10px 15px;
+  padding: 10px 10px;
   position: fixed;
-  top: 20px;
-  left: 20px;
+  left: 5px;
   z-index: 1; /* Ensure the button is below the panel */
 }
 

@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateQuestionInfo() {
     document.getElementById("question-info").textContent = `${
       currentQuestionIndex + 1
-    }/${questions.length}`;
+    } / ${questions.length}`;
   }
 
   // Save JSON profile to localStorage
