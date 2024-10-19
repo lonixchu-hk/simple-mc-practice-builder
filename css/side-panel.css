@@ -96,8 +96,8 @@
 
 .side-panel ul li .tick-mark {
   position: absolute;
-  top: -11px;
-  left: -12px;
+  top: -5px;
+  left: -5px;
   color: white;
   font-size: 16px;
   width: 25px;
@@ -109,7 +109,16 @@
   align-items: center;
 }
 
-.side-panel ul li button {
+.question-set-button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 20%;
+  position: relative;
+}
+
+.question-set-button-container button {
   background-color: #e86349;
   border: none;
   border-radius: 4px;
@@ -117,10 +126,17 @@
   cursor: pointer;
   padding: 5px 10px;
   transition: background-color 0.3s;
-  width: 20%;
   float: right;
+  margin: 5px;
+}
+.question-set-button-container button:hover {
+  background-color: #d35b43;
 }
 
-.side-panel ul li button:hover {
-  background-color: #d35b43;
+button.question-set-delete-btn {
+  background-color: #b12002;
+}
+
+button.question-set-delete-btn:hover {
+  background-color: #991a00;
 }

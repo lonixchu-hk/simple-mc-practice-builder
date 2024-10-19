@@ -128,8 +128,28 @@ document.addEventListener("DOMContentLoaded", () => {
       questionSetName.classList.add("question-set-name");
       li.appendChild(questionSetName);
 
-      // Add delete button
+      // Add buttons
+      const buttonContainer = document.createElement("span");
+      buttonContainer.classList.add("question-set-button-container");
+
+      const exportButton = document.createElement("button");
+      exportButton.classList.add("question-set-export-btn");
+      exportButton.textContent = "Export";
+      exportButton.addEventListener("click", (e) => {
+        e.stopPropagation();
+        // Export a json file
+        const blob = new Blob([profile.json], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${profile.name}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+      buttonContainer.appendChild(exportButton);
+
       const deleteButton = document.createElement("button");
+      deleteButton.classList.add("question-set-delete-btn");
       deleteButton.textContent = "Delete";
       deleteButton.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -138,8 +158,9 @@ document.addEventListener("DOMContentLoaded", () => {
         );
         if (confirmDelete) deleteProfile(index);
       });
+      buttonContainer.appendChild(deleteButton);
 
-      li.appendChild(deleteButton);
+      li.appendChild(buttonContainer);
 
       if (index === selectedQuestionSetIndex) {
         const tickMark = document.createElement("span");
