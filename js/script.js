@@ -222,6 +222,12 @@ document.addEventListener("DOMContentLoaded", () => {
   function loadQuestionsFromJson(json) {
     questions = JSON.parse(json);
 
+    // check if questions is empty.
+    if (questions.length === 0) {
+      alert("No questions found in the JSON file.");
+      return false;
+    }
+
     // Randomize the order of questions
     questions.sort(() => Math.random() - 0.5);
 
@@ -231,18 +237,20 @@ document.addEventListener("DOMContentLoaded", () => {
       options.sort(() => Math.random() - 0.5);
       question.randomizedOptions = options;
     });
+    return true;
   }
 
   function saveQuestionSet(jsonText) {
-    loadQuestionsFromJson(jsonText);
-    const profileName = prompt("Enter a name for this JSON profile:");
-    if (profileName) {
-      saveJsonProfile(profileName, jsonText);
-      profileNameElement.textContent = profileName; // Set profile name
-      currentQuestionIndex = 0;
-      displayQuestion();
-    } else if (profileName !== null) {
-      alert("Cannot save profile without a name. Please try again.");
+    if (loadQuestionsFromJson(jsonText)) {
+      const profileName = prompt("Enter a name for this JSON profile:");
+      if (profileName) {
+        saveJsonProfile(profileName, jsonText);
+        profileNameElement.textContent = profileName; // Set profile name
+        currentQuestionIndex = 0;
+        displayQuestion();
+      } else if (profileName !== null) {
+        alert("Cannot save profile without a name. Please try again.");
+      }
     }
   }
 
