@@ -37,13 +37,14 @@
     <div id="json-side-panel" class="side-panel">
       <a href="javascript:void(0)" class="close-btn">&times;</a>
       <div>
-        <h2>Add Question Set</h2>
+        <h2>Add Question Set <a id="show-json-structure">>>Sample<<</a></h2>
         <ol>
           <li>
             Copy and Paste JSON
             <textarea
               id="json-textarea"
               placeholder="Paste JSON here..."
+              style="resize: none"
             ></textarea>
             <button id="load-json">Submit JSON</button>
           </li>
@@ -63,6 +64,30 @@
       ☰ Manage Question Bank
     </button>
     <div id="backdrop"></div>
+
+    <!-- Add a popup to show the sample json structure -->
+    <div id="json-structure-popup">
+      <a href="javascript:void(0)" id="json-structure-popup-close-btn"
+        >&times;</a
+      >
+      <pre>
+  {
+    "profile": "Profile Name",
+    "questions": [
+      {
+        "question": "Question 1",
+        "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
+        "answer": "Option 1"
+      },
+      {
+        "question": "Question 2",
+        "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
+        "answer": "Option 2"
+      }
+    ]
+  }
+      </pre>
+    </div>
 
     <script src="js/script.js"></script>
     <script src="js/side-panel.js"></script>

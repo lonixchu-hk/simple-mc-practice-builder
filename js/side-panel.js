@@ -4,6 +4,12 @@ const closeButton = document.querySelector(".close-btn");
 const backdrop = document.getElementById("backdrop");
 const questionSet = document.querySelector("ul");
 
+const sampleJsonBtn = document.getElementById("show-json-structure");
+const JsonSamplePopup = document.getElementById("json-structure-popup");
+const closeJsonSamplePopup = document.getElementById(
+  "json-structure-popup-close-btn"
+);
+
 openButton.addEventListener("click", () => {
   showPanel();
 });
@@ -24,10 +30,19 @@ questionSet.addEventListener("click", (event) => {
   }
 });
 
+closeJsonSamplePopup.addEventListener("click", () => {
+  JsonSamplePopup.style.display = "none";
+});
+
+sampleJsonBtn.addEventListener("click", () => {
+  JsonSamplePopup.style.display = "block";
+});
+
 const closePanel = () => {
   sidePanel.style.left = "-400px";
   backdrop.style.display = "none"; // Hide the backdrop when the panel is closed
   openButton.style.display = "block"; // Show the button when the panel is closed
+  JsonSamplePopup.style.display = "none";
 };
 
 const showPanel = () => {
